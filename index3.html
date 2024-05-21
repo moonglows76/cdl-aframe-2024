@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8"/>
+	<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+	<script src="https://unpkg.com/three@0.131.3/examples/js/loaders/TDSLoader.js"></script>
+</head>
+<body>
+  <h1>VR空間を表示</h1>
+	<a-scene stats loading-screen="dotsColor: gray; backgroundColor: lightgray">
+		
+		<!-- Sky, Emvironment -->
+		<a-sky color="#ECECEC"></a-sky>
+		<a-entity environment="preset: default; dressingAmount: 30"></a-entity>
+
+		<!-- Assets -->
+		<a-assets timeout="30000">
+			<a-asset-item id="submarine_gltf" src="./gltf/Cake_ Pop.gltf"></a-asset-item>
+		</a-assets>
+
+		<!-- GLTF, Obj -->
+		<a-gltf-model src="#submarine_gltf" position="-5 5 -15" rotation="0 -20 0"></a-gltf-model>
+
+	</a-scene>
+</body>
+</html>

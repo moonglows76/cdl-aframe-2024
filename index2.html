@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>kakushi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no" />
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/3.3.1/aframe/build/aframe-ar.js"></script>
+  <style>
+    * {
+      margin: 0; padding: 0;
+    }
+
+    body {
+      overflow: hidden;
+      cursor: none;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    let audio;
+
+    AFRAME.registerComponent('marker', {
+      init: function () {
+        const marker = this.el;
+
+        marker.addEventListener('markerFound', function () {
+          console.log('markerFound');
+          if (audio) {
+            audio.currentTime = 0;
+            audio.play();
+          }
+        });
+
+        marker.addEventListener('markerLost', function () {
+          console.log('markerLost');
+          audio && audio.pause();
+        });
+      }
+    });
+
+    window.onload = () => {
+      audio = document.getElementById('audio');
+    };
+  </script>
+  <h1>ARで画像を表示</h1>
+  <a-scene
+    embedded
+    arjs="debugUIEnabled: false"
+    device-orientation-permission-ui="enabled: false"
+    vr-mode-ui="enabled: false"
+  >
+    <a-assets timeout="10000">
+			<a-asset-item id="submarine_gltf" src="./gltf/Cake_ Pop.gltf"></a-asset-item>
+      <audio id="audio" src="audio.mp3" loop></audio>
+      <img id="img" src="img.png" width="380" height="400" alt="name" />
+    </a-assets>
+    <a-marker marker type='pattern' url='./pattern.patt'>
+      <a-gltf-model src="#submarine_gltf" position="-5 5 -15" rotation="0 -20 0"></a-gltf-model>
+      <a-plane
+        rotation="-90 0 0"
+        src="#img"
+      ></a-plane>
+    </a-marker>
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/3.3.1/aframe/build/aframe-ar.js"></script>
+  <script>
+    let audio;
+
+    AFRAME.registerComponent('marker', {
+      init: function () {
+        const marker = this.el;
+
+        marker.addEventListener('markerFound', function () {
+          console.log('markerFound');
+          // if (audio) {
+          //   audio.currentTime = 0;
+          //   audio.play();
+          // }
+        });
+
+        marker.addEventListener('markerLost', function () {
+          console.log('markerLost');
+          // audio && audio.pause();
+        });
+      }
+    });
+
+    window.onload = () => {
+      // audio = document.getElementById('audio');
+    };
+  </script>
+</head>
+<body>
+  <h1>ARで3Dモデルを表示</h1>
+  <a-scene embedded arjs="debugUIEnabled: false" vr-mode-ui="enabled: false">
+    <a-assets>
+      <!-- <audio id="audio" src="audio.mp3" loop></audio> -->
+      <!-- obj -->
+      <a-asset-item id="cow" src="vehicle/15724_Steampunk_Vehicle_Dirigible_v1.obj"></a-asset-item>
+      <a-asset-item id="mtl" src="vehicle/New Bitmap Image.mtl"></a-asset-item>
+      <!-- gltf -->
+			<!-- <a-asset-item id="submarine_gltf" src="./gltf/Cake_Pop.gltf"></a-asset-item> -->
+
+    </a-assets>
+    <a-marker marker type='pattern' url='./pattern.patt'>
+      <!--
+        * scale="x y z"　拡大縮小
+          x: x方向
+          y: y方向
+          z: z方向
+        * position="x y z"　位置を指定
+          x: left(-) right(+)
+          y: down(-) up(+)
+          z: back(-) front(+)
+        * rotation="x y z"　角度を指定
+          x: up-down
+          y: left-right
+          z: tilt
+      -->
+      <!-- obj -->
+      <a-obj-model src="#cow" mtl="#mtl" scale=".1 .1 .1" position="0 1 0"></a-obj-model>
+      <!-- gltf -->
+      <!-- <a-gltf-model src="#submarine_gltf" scale=".1 .1 .1" position="0 0 0" rotation="0 0 0"></a-gltf-model> -->
+    </a-marker>
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
+</html>
